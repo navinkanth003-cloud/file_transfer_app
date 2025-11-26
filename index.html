@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>file-transfer-app</title>
+  <script>
+    window.global = window;
+    window.process = {
+      env: { DEBUG: undefined },
+      version: '',
+      nextTick: function (callback) { setTimeout(callback, 0); },
+      browser: true
+    };
+    window.setImmediate = window.setImmediate || function (callback) { setTimeout(callback, 0); };
+    if (typeof window.Buffer === 'undefined') {
+      window.Buffer = {
+        isBuffer: function () { return false; },
+        from: function (data) { return data; }
+      };
+    }
+
+    window.onerror = function (msg, url, line, col, error) {
+      if (window.addLog) {
+        window.addLog(`GLOBAL ERROR: ${msg} at ${line}:${col}`);
+      } else {
+        console.error('Global Error:', msg);
+      }
+      return false;
+    };
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
